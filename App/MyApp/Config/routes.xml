@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<routes>
+    <route url="/" module="Module" action="index"></route>
+    <route url="/connexion" module="Connexion" action="index"></route>
+    <route url="/deconnexion" module="Connexion" action="deconnexion"></route>
+    <route url="/ajax/connexion" module="Connexion" action="authentification"></route>
+</routes>

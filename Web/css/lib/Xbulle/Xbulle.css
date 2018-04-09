@@ -1,0 +1,48 @@
+/* Bulle container */
+
+.Xbulle-container{
+    padding: 1em;
+    position: fixed;
+    z-index: 99999;
+}
+
+.Xbulle-content{
+    padding: 1em;
+    width: 100%;
+    border: 1px solid #818181;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #f7f7f7;
+    -webkit-box-shadow: 0 3px 3px rgba(0,0,0,.5);
+    -moz-box-shadow: 0 3px 3px rgba(0,0,0,.5);
+    box-shadow: 0 3px 3px rgba(0,0,0,.5);
+}
+
+.Xbulle-type--err{
+    border: 1px solid #a50404;
+    background-color: #fedcdc;
+}
+.Xbulle-type--warn{
+    border: 1px solid #f6bc1e;
+    background-color: #fef6e2;
+}
+.Xbulle-type--conf{
+    border: 1px solid #23860d;
+    background-color: #d4facc;
+}
+.Xbulle-type--info{
+    border: 1px solid #3897c8;
+    background-color: #d7eaf4;
+}
+
+.Xbulle-close{
+    top: 0;
+    right: 0;
+    font-size: 1em;
+}
+
+.Xbulle-close:hover{
+    color: #a50404;
+    cursor:pointer;
+}

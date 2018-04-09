@@ -1,0 +1,14 @@
+{
+  "name": "TCFram",
+  "authors": [
+    {
+      "name": "Crepy Tanguy",
+      "email": "contact@tanguycrepy.fr",
+      "homepage": "http://www.tanguycrepy.fr",
+      "role": "Developper"
+    }
+  ],
+  "require": {
+
+  }
+}
