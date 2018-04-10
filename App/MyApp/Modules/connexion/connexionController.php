@@ -2,10 +2,12 @@
 
 namespace App\MyApp\Modules\Connexion;
 
+use Entity\User;
 use TCFram\Application;
 use TCFram\BackController;
 use TCFram\HTTPRequest;
 use \App\MyApp\Modules as Modules;
+use TCFram\Tools;
 
 Class ConnexionController extends BackController
 {
@@ -67,7 +69,7 @@ Class ConnexionController extends BackController
             $this->app()->user()->unsetSessionDatas(['name', 'role']);
         }
 
-        header('Location: ' . $this->app()->web_url() . '/connexion');
+        Tools::redirect($this->app()->web_url() . '/connexion');
     }
 
     public function executeUpdateForm(HTTPRequest $request)
@@ -82,7 +84,41 @@ Class ConnexionController extends BackController
         $this->app()->httpResponse()->setPage($this->page())->send();
     }
 
-    public function executeInscrition(HTTPRequest $request) {
+    public function executeInscription(HTTPRequest $request)
+    {
+        if (!($request->postExists('name') && $request->postExists('password') && $request->postExists('password_confirm'))) {
+            $this->app()->user()->setFlash('Veuillez remplir tous les champs');
+            Tools::redirect($this->app()->web_url() . '/inscription');
+        }
+        $name = $request->postData('name');
+        $password = $request->postData('password');
+        $verify = $request->postData('password_confirm');
+
+        if ($password !== $verify) {
+            $this->app()->user()->setFlash('Les deux mots de passe entrés ne sont pas les mêmes');
+            Tools::redirect($this->app()->web_url() . '/inscription');
+        }
+
+        try {
+            $userManager = $this->managers->getManagerOf('user');
+            $existingUser = $userManager->getInfosByFields(['name' => $name], [], true);
+        } catch (\Exception $e) {
+            $this->app()->user()->setFlash($e->getMessage());
+            Tools::redirect($this->app()->web_url() . '/inscription');
+        }
+
+        if ($existingUser !== null) {
+            $this->app()->user()->setFlash('Le nom d\'utilisateur existe déjà');
+            Tools::redirect($this->app()->web_url() . '/inscription');
+        } else {
+            try {
+                $user = $userManager->insert(['name' => $name, 'password' => password_hash($password, PASSWORD_DEFAULT), 'role' => '0']);
+            } catch (\Exception $e) {
+                $this->app()->user()->setFlash($e->getMessage());
+                Tools::redirect($this->app()->web_url() . '/inscription');
+            }
+            Tools::redirect($this->app()->web_url() . '/');
+        }
 
     }
 }

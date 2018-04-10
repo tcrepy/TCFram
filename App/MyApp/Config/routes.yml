@@ -29,5 +29,10 @@ routes:
   - route:
       url: '/inscription'
       module: 'Connexion'
-      action: 'inscription'
+      action: 'inscriptionForm'
       name: 'inscription'
+  - route:
+      url: '/inscription/validation'
+      module: 'Connexion'
+      action: 'inscription'
+      name: 'validationInscription'

@@ -24,7 +24,9 @@
             <?php } ?>
         </ul>
     </nav>
-
+    <?php
+    var_dump($_SESSION);
+    ?>
     <div id="content-wrap">
         <section id="main">
             <div class="container">

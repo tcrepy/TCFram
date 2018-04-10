@@ -13,6 +13,11 @@ class Managers
         $this->dao = $dao;
     }
 
+    /**
+     * @param $module
+     * @throws \InvalidArgumentException
+     * @return Manager
+     */
     public function getManagerOf($module)
     {
         if (!is_string($module) || empty($module))

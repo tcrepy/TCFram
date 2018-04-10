@@ -1,9 +1,9 @@
 <div class="row" id="inscription">
     <div class="col">
-        <form>
+        <form action="<?= $project_url ?>/inscription/validation" method="post">
             <div class="form-group">
                 <label for="pseudo" class="label">Pseudo</label>
-                <input type="text" class="form-control" id="pseudo" placeholder="Votre nom d'utilisateur">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Votre nom d'utilisateur">
             </div>
             <div class="form-group">
                 <label for="password" class="label">Password</label>
@@ -15,7 +15,7 @@
                 <input type="password" class="form-control" name="password_confirm" id="password_confirm"
                        placeholder="Confirmer le mot de passe">
             </div>
-            <button type="submit" class="btn btn-primary" id="valider">Valider</button>
+            <button type="submit" class="btn btn-primary">Valider</button>
         </form>
     </div>
 </div>

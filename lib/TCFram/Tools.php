@@ -1,4 +1,5 @@
 <?php
+
 namespace TCFram;
 
 Class Tools
@@ -20,5 +21,11 @@ Class Tools
             }
         }
         return false;
+    }
+
+    public static function redirect($url)
+    {
+        header('Location: ' . $url);
+        exit;
     }
 }
