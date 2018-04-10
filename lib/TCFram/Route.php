@@ -6,14 +6,16 @@ class Route
     protected $action;
     protected $module;
     protected $url;
+    protected $name;
     protected $varsNames;
     protected $vars = [];
 
-    public function __construct($url, $module, $action, array $varsNames)
+    public function __construct($url, $module, $action, $name, array $varsNames)
     {
         $this->setUrl($url);
         $this->setModule($module);
         $this->setAction($action);
+        $this->setName($name);
         $this->setVarsNames($varsNames);
     }
 
@@ -87,4 +89,16 @@ class Route
     {
         return $this->varsNames;
     }
+
+    public function name()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+
 }

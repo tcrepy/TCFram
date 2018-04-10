@@ -3,25 +3,31 @@ routes:
       url: '/'
       module: 'Module'
       action: 'index'
+      name: 'module.index'
       vars:
         maVariable: 'value'
   - route:
       url: '/connexion'
       module: 'Connexion'
       action: 'index'
+      name: 'connexion'
   - route:
       url: '/deconnexion'
       module: 'Connexion'
       action: 'deconnexion'
+      name: 'deconnexion'
   - route:
       url: '/user/modification'
       module: 'Connexion'
       action: 'updateForm'
+      name: 'user.update'
   - route:
       url: '/ajax/connexion'
       module: 'Connexion'
       action: 'authentification'
+      name: 'authentification'
   - route:
       url: '/inscription'
       module: 'Connexion'
       action: 'inscription'
+      name: 'inscription'

@@ -19,11 +19,8 @@ class MyAppApplication extends Application
 
     public function run()
     {
-        if (!$this->user()->isAuthenticated() && $this->httpRequest()->method() !== 'POST' ) {
-            $controller = new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
-        } else {
-            $controller = $this->getController();
-        }
+        $controller = $this->getController();
+
         $this->addAssets($controller);
         $controller->execute();
     }

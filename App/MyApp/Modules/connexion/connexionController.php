@@ -26,7 +26,7 @@ Class ConnexionController extends BackController
         $this->app()->httpResponse()->setPage($this->page())->send();
     }
 
-    public function executeInscription(HTTPRequest $request)
+    public function executeInscriptionForm(HTTPRequest $request)
     {
         $this->app()->httpResponse()->setPage($this->page())->send();
     }
@@ -80,5 +80,9 @@ Class ConnexionController extends BackController
         }
         $this->page()->addVar('myUser', $myUser);
         $this->app()->httpResponse()->setPage($this->page())->send();
+    }
+
+    public function executeInscrition(HTTPRequest $request) {
+
     }
 }

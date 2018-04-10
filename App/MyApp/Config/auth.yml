@@ -1,0 +1,9 @@
+authorizations:
+  roles:
+    #admin
+    1:
+    #user
+    0:
+      - 'deconnexion'
+      - 'user.update'
+      - 'authentification'

@@ -3,6 +3,7 @@
 namespace TCFram;
 
 use Symfony\Component\Yaml\Yaml;
+use App\MyApp\Modules;
 
 abstract class Application
 {
@@ -43,7 +44,7 @@ abstract class Application
             }
 
             // On ajoute la route au routeur.
-            $router->addRoute(new Route($this->url . $route['url'], $route['module'], $route['action'], $vars));
+            $router->addRoute(new Route($this->url . $route['url'], $route['module'], $route['action'], $route['name'], $vars));
         }
         try {
             // On récupère la route correspondante à l'URL.
@@ -54,9 +55,19 @@ abstract class Application
                 $this->httpResponse->redirect404();
             }
         }
-
         // On ajoute les variables de l'URL au tableau $_GET.
         $_GET = array_merge($_GET, $matchedRoute->vars());
+
+        $fileName = __DIR__ . '/../../App/' . $this->name() . '/Config/auth.yml';
+        $yaml = Yaml::parse(file_get_contents($fileName));
+        $authorizations = $yaml['authorizations'];
+        if ($this->user()->isAuthenticated() && !in_array($matchedRoute->name(), $authorizations['roles'][$this->user()->role()])) {
+            $this->user()->setFlash('Vous n\'avez pas accès à cette page');
+            return new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
+        } elseif (Tools::in_array_r($matchedRoute->name(), $authorizations['roles'])) {
+            $this->user()->setFlash('Cette page n\'est accessile qu\'aux utilisateurs connectés');
+            return new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
+        }
 
         // On instancie le contrôleur.
         $controllerClass = 'App\\' . $this->name . '\\Modules\\' . $matchedRoute->module() . '\\' . $matchedRoute->module() . 'Controller';

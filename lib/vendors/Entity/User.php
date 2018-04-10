@@ -11,6 +11,7 @@ class User extends Entity
         $role;
 
     const ADMIN_CODE = 1;
+    const USER_CODE = 0;
 
     // SETTERS //
 
