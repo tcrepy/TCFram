@@ -27,9 +27,11 @@
 
     <div id="content-wrap">
         <section id="main">
-            <?php if ($user->hasFlash()) echo '<p style="text-align: center;">', $user->getFlash(), '</p>'; ?>
+            <div class="container">
+                <?php if ($user->hasFlash()) echo '<p style="text-align: center;">', $user->getFlash(), '</p>'; ?>
 
-            <?= $content ?>
+                <?= $content ?>
+            </div>
         </section>
     </div>
 

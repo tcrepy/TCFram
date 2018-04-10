@@ -158,7 +158,7 @@ abstract class Manager
             }
         }
 
-        $sql = "insert into " . static::$dbName . " set $queryFields";
+        $sql = "insert into " . static::$dbName . " set " . $queryFields;
 
         try {
             $query = $this->dao->query($sql);
@@ -182,20 +182,40 @@ abstract class Manager
      */
     public function update(Entity $entity, array $param)
     {
-        try {
-            $entity->hydrate($param);
-        } catch (Exception $e) {
-            throw $e;
+        if (!(isset($param) && is_array($param))) {
+            throw new Exception("Les paramètres pour la mise à jour doivent être contenus dans un tableau");
         }
-        //TODO::Update sql with DB class
 
-        return $entity;
+        //TODO::test update
+        if (count($param)) {
+            try {
+                $entity->hydrate($param);
+            } catch (Exception $e) {
+                throw $e;
+            }
+            $queryFields = self::_getQueryFields($param, ',');
+            if (!strlen($queryFields)) {
+                throw new Exception("Aucune données de mise à jour");
+            }
+            $sql = "UPDATE " . static::$dbName . " SET " . $queryFields . " WHERE id=:id";
+            $outDatas = $this->dao->query($sql, ['id', $entity->id()]);
+            if ($outDatas === 0) {
+                throw new Exception('Aucune ligne n\'a été affectée');
+            } else {
+                return $entity;
+            }
+
+        } else {
+            throw new Exception('Aucune données de mise à jour');
+        }
+
+
     }
 
     //TODO::test delete
     public function delete(Entity $entity)
     {
-        $sql = 'DELETE FROM '.static::$dbName.' WHERE id=:id';
+        $sql = 'DELETE FROM ' . static::$dbName . ' WHERE id=:id';
         return $this->dao->query($sql, ['id', $entity->id()]);
     }
 

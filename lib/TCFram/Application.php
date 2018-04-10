@@ -2,6 +2,7 @@
 
 namespace TCFram;
 
+use Symfony\Component\Yaml\Yaml;
 
 abstract class Application
 {
@@ -30,22 +31,19 @@ abstract class Application
     {
         $router = new Router;
 
-        $xml = new \DOMDocument;
-        $xml->load(__DIR__ . '/../../App/' . $this->name . '/Config/routes.xml');
-
-        $routes = $xml->getElementsByTagName('route');
-
+        $fileName = __DIR__ . '/../../Config/routes.yml';
+        $yaml = Yaml::parse(file_get_contents($fileName));
+        $routes = $yaml['routes'];
         // On parcourt les routes du fichier XML.
         foreach ($routes as $route) {
             $vars = [];
 
-            // On regarde si des variables sont présentes dans l'URL.
-            if ($route->hasAttribute('vars')) {
-                $vars = explode(',', $route->getAttribute('vars'));
+            if (isset($route['vars']) && !empty($route['vars'])) {
+                $vars = $route['vars'];
             }
 
             // On ajoute la route au routeur.
-            $router->addRoute(new Route($this->url . $route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $vars));
+            $router->addRoute(new Route($this->url . $route['url'], $route['module'], $route['action'], $vars));
         }
 
         try {

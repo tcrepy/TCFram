@@ -20,7 +20,7 @@ class MyAppApplication extends Application
 
     public function run()
     {
-        if (!$this->user()->isAuthenticated() && $this->httpRequest()->method() !== 'POST') {
+        if (!$this->user()->isAuthenticated() && $this->httpRequest()->method() !== 'POST' ) {
             $controller = new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
         } else {
             $controller = $this->getController();
@@ -42,6 +42,12 @@ class MyAppApplication extends Application
             $controller->page()->addCss('lib/Xbulle/Xbulle.css');
             $controller->page()->addJs('lib/all.js');
             $controller->page()->addCss('lib/all.css');
+
+            //ajout de Bootstrap 4
+            $controller->page()->addCss('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', true);
+            $controller->page()->addJs('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', true);
+            $controller->page()->addJs('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', true);
+            //assets définis dans les controller de l'app
             foreach ($otherAssets as $asset) {
                 switch ($asset['type']) {
                     case 'js':

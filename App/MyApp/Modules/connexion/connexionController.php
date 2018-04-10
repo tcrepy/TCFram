@@ -23,12 +23,11 @@ Class ConnexionController extends BackController
 
     public function executeIndex(HTTPRequest $request)
     {
-//        $manager = $this->managers->getManagerOf('module');
-//        try {
-//        } catch (\Exception $e) {
-//            echo $e->getMessage();
-//        }
+        $this->app()->httpResponse()->setPage($this->page())->send();
+    }
 
+    public function executeInscription(HTTPRequest $request)
+    {
         $this->app()->httpResponse()->setPage($this->page())->send();
     }
 
@@ -50,6 +49,7 @@ Class ConnexionController extends BackController
                 if (password_verify($request->postData('password'), $myUser->password())) {
                     $this->app()->user()->setAuthenticated();
                     $this->app()->user()->setSessionDatas([
+                        'id' => $myUser->id(),
                         'pseudo' => $myUser->pseudo(),
                         'role' => $myUser->role()
                     ]);
@@ -67,6 +67,18 @@ Class ConnexionController extends BackController
             $this->app()->user()->unsetSessionDatas(['pseudo', 'role']);
         }
 
-        header('Location: '.$this->app()->web_url().'/connexion');
+        header('Location: ' . $this->app()->web_url() . '/connexion');
+    }
+
+    public function executeUpdateForm(HTTPRequest $request)
+    {
+        try {
+            $manager = $this->managers->getManagerOf('user');
+            $myUser = $manager->getInfos($this->app()->user()->getSessionDatas('id'));
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        $this->page()->addVar('myUser', $myUser);
+        $this->app()->httpResponse()->setPage($this->page())->send();
     }
 }
