@@ -1,0 +1,5 @@
+dbInfos:
+  hostname: 'localhost'
+  database: 'framework_perso_test'
+  username: 'root'
+  password: ''

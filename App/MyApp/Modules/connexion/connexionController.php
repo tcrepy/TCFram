@@ -33,12 +33,12 @@ Class ConnexionController extends BackController
 
     public function executeAuthentification(HTTPRequest $request)
     {
-        if (!($request->postExists('pseudo') && $request->postExists('password'))) {
+        if (!($request->postExists('name') && $request->postExists('password'))) {
             $this->app()->httpResponse()->sendJsonErr('Veuillez indiquer un nom d\'utilisateur et un mot de passe');
         }
         try {
             $userManager = $this->managers->getManagerOf('user');
-            $users = $userManager->getListInfosByFields(['pseudo' => $request->postData('pseudo')]);
+            $users = $userManager->getListInfosByFields(['name' => $request->postData('name')]);
         } catch (\Exception $e) {
             $this->app()->httpResponse()->sendJsonErr($e->getMessage());
         }
@@ -50,7 +50,7 @@ Class ConnexionController extends BackController
                     $this->app()->user()->setAuthenticated();
                     $this->app()->user()->setSessionDatas([
                         'id' => $myUser->id(),
-                        'pseudo' => $myUser->pseudo(),
+                        'name' => $myUser->name(),
                         'role' => $myUser->role()
                     ]);
                     $this->app()->httpResponse()->sendJsonConf('Vous êtes connecté');
@@ -64,7 +64,7 @@ Class ConnexionController extends BackController
     {
         if ($this->app()->user()->isAuthenticated()) {
             $this->app()->user()->setAuthenticated(false);
-            $this->app()->user()->unsetSessionDatas(['pseudo', 'role']);
+            $this->app()->user()->unsetSessionDatas(['name', 'role']);
         }
 
         header('Location: ' . $this->app()->web_url() . '/connexion');

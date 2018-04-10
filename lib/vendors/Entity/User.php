@@ -6,7 +6,7 @@ use \TCFram\Entity;
 
 class User extends Entity
 {
-    protected $pseudo,
+    protected $name,
         $password,
         $role;
 
@@ -15,11 +15,11 @@ class User extends Entity
     // SETTERS //
 
     /**
-     * @param mixed $pseudo
+     * @param mixed $name
      */
-    public function setPseudo($pseudo)
+    public function setName($name)
     {
-        $this->pseudo = $pseudo;
+        $this->name = $name;
     }
 
     /**
@@ -40,9 +40,9 @@ class User extends Entity
 
     // GETTERS //
 
-    public function pseudo()
+    public function name()
     {
-        return $this->pseudo;
+        return $this->name;
     }
 
     public function password()

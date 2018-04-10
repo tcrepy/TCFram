@@ -13,7 +13,6 @@ abstract class Application
     protected $config;
     protected $url;
     protected $web_url;
-    protected $cryto_key;
 
     public function __construct()
     {
@@ -24,18 +23,19 @@ abstract class Application
         $this->name = '';
         $this->url = '';
         $this->web_url = '';
-        $this->cryto_key = '';
     }
 
     public function getController()
     {
         $router = new Router;
 
-        $fileName = __DIR__ . '/../../Config/routes.yml';
+        $fileName = __DIR__ . '/../../App/' . $this->name() . '/Config/routes.yml';
+
         $yaml = Yaml::parse(file_get_contents($fileName));
         $routes = $yaml['routes'];
         // On parcourt les routes du fichier XML.
         foreach ($routes as $route) {
+            $route = $route['route'];
             $vars = [];
 
             if (isset($route['vars']) && !empty($route['vars'])) {
@@ -45,7 +45,6 @@ abstract class Application
             // On ajoute la route au routeur.
             $router->addRoute(new Route($this->url . $route['url'], $route['module'], $route['action'], $vars));
         }
-
         try {
             // On récupère la route correspondante à l'URL.
             $matchedRoute = $router->getRoute($this->httpRequest->requestURI());

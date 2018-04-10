@@ -15,7 +15,6 @@ class MyAppApplication extends Application
         $this->name = 'MyApp';
         $this->url = $this->config()->get('project_url');
         $this->web_url = $this->config()->get('web_url') . $this->url;
-        $this->cryto_key = $this->config()->get('crypto_key');
     }
 
     public function run()
@@ -30,7 +29,7 @@ class MyAppApplication extends Application
     }
 
     /**
-     * permet de gerer la liste des js/css sur le projet
+     * permet de gerer la liste des fichiers js/css sur le projet
      * @param array $otherAssets tableau contenant la liste des assets qu'on souhaite ajouter $otherAssets[]['type'=>'css/js', 'path' => '...']
      */
     public function addAssets(BackController $controller, array $otherAssets = [])
