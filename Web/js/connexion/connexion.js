@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $('#valider').on('click', function () {
+    $('#valider').on('click', function (e) {
+        e.preventDefault();
         auth();
     });
 });
