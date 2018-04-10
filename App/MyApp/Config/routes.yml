@@ -1,0 +1,27 @@
+routes:
+  - route:
+      url: '/'
+      module: 'Module'
+      action: 'index'
+      vars:
+        maVariable: 'value'
+  - route:
+      url: '/connexion'
+      module: 'Connexion'
+      action: 'index'
+  - route:
+      url: '/deconnexion'
+      module: 'Connexion'
+      action: 'deconnexion'
+  - route:
+      url: '/user/modification'
+      module: 'Connexion'
+      action: 'updateForm'
+  - route:
+      url: '/ajax/connexion'
+      module: 'Connexion'
+      action: 'authentification'
+  - route:
+      url: '/inscription'
+      module: 'Connexion'
+      action: 'inscription'

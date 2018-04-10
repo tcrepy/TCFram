@@ -8,6 +8,7 @@ if (!isset($_GET['app']) || !file_exists(__DIR__.'/../App/'.$_GET['app'])) $_GET
 require __DIR__.'/../lib/TCFram/SplClassLoader.php';
 
 
+
 // On va ensuite enregistrer les autoloads correspondant à chaque vendor (TCFram, App, Model, etc.)
 $TCFramLoader = new SplClassLoader('TCFram', __DIR__.'/../lib');
 $TCFramLoader->register();
@@ -23,6 +24,10 @@ $entityLoader->register();
 
 // Il ne nous suffit plus qu'à déduire le nom de la classe et à l'instancier
 $appClass = 'App\\'.$_GET['app'].'\\'.$_GET['app'].'Application';
+
+//
+if (file_exists(__DIR__.'/../vendor/autoload.php'))
+    require __DIR__.'/../vendor/autoload.php';
 
 $app = new $appClass;
 $app->run();

@@ -57,6 +57,20 @@ class User extends ApplicationComponent
         }
     }
 
+    /**
+     * @param $slug
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getSessionDatas($slug)
+    {
+        if (isset($_SESSION[$slug])) {
+            return $_SESSION[$slug];
+        } else {
+            throw new \Exception('La clé demandée n\'existe pas');
+        }
+    }
+
     public function unsetSessionDatas(Array $tab)
     {
         foreach ($tab as $key) {

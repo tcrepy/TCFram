@@ -50,14 +50,16 @@ class Page extends ApplicationComponent
         $this->contentFile = $contentFile;
     }
 
-    public function addCss($file)
+    public function addCss($file, $extern = false)
     {
         if (!is_string($file) || $file == '') {
             throw new \InvalidArgumentException('Le fichier demandé est invalide');
         }
-        $file = 'css/' . $file;
-        if (!file_exists($file)) {
-            throw new \InvalidArgumentException('Le fichier demandé n\'existe pas');
+        if ($extern === false) {
+            $file = 'css/' . $file;
+            if (!file_exists($file)) {
+                throw new \InvalidArgumentException('Le fichier demandé n\'existe pas');
+            }
         }
         $this->css[] = $file;
     }
@@ -73,14 +75,16 @@ class Page extends ApplicationComponent
         return $css;
     }
 
-    public function addJs($file)
+    public function addJs($file, $extern = false)
     {
         if (!is_string($file) || $file == '') {
             throw new \InvalidArgumentException('Le fichier demandé est invalide');
         }
-        $file = 'js/' . $file;
-        if (!file_exists($file)) {
-            throw new \InvalidArgumentException('Le fichier demandé n\'existe pas');
+        if ($extern === false) {
+            $file = 'js/' . $file;
+            if (!file_exists($file)) {
+                throw new \InvalidArgumentException('Le fichier demandé n\'existe pas');
+            }
         }
         $this->js[] = $file;
     }
