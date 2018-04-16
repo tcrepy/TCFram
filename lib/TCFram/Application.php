@@ -117,9 +117,4 @@ abstract class Application
     {
         return $this->url;
     }
-
-    public function cryto_key()
-    {
-        return $this->cryto_key;
-    }
 }
