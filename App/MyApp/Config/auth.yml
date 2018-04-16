@@ -6,4 +6,3 @@ authorizations:
     0:
       - 'deconnexion'
       - 'user.update'
-      - 'authentification'

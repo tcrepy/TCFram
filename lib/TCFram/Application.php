@@ -61,11 +61,16 @@ abstract class Application
         $fileName = __DIR__ . '/../../App/' . $this->name() . '/Config/auth.yml';
         $yaml = Yaml::parse(file_get_contents($fileName));
         $authorizations = $yaml['authorizations'];
-        if ($this->user()->isAuthenticated() && !in_array($matchedRoute->name(), $authorizations['roles'][$this->user()->role()])) {
-            $this->user()->setFlash('Vous n\'avez pas accès à cette page');
-            return new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
-        } elseif (Tools::in_array_r($matchedRoute->name(), $authorizations['roles'])) {
-            $this->user()->setFlash('Cette page n\'est accessile qu\'aux utilisateurs connectés');
+        try {
+            if ($this->user()->isAuthenticated() && in_array($matchedRoute->name(), $authorizations['roles'][$this->user()->getSessionDatas('role')])) {
+                $this->user()->setFlash('Vous n\'avez pas accès à cette page');
+                return new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
+            } elseif (!$this->user()->isAuthenticated() && Tools::in_array_r($matchedRoute->name(), $authorizations['roles'])) {
+                $this->user()->setFlash('Cette page n\'est accessile qu\'aux utilisateurs connectés');
+                return new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
+            }
+        } catch (\Exception $e) {
+            $this->user()->setFlash($e->getMessage());
             return new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
         }
 
@@ -101,12 +106,6 @@ abstract class Application
     public function user()
     {
         return $this->user;
-    }
-
-    public function loadEncryptionKeyFromConfig()
-    {
-        $keyAscii = $this->cryto_key;
-        return Key::loadFromAsciiSafeString($keyAscii);
     }
 
     public function web_url()

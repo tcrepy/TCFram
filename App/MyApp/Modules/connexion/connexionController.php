@@ -35,12 +35,13 @@ Class ConnexionController extends BackController
 
     public function executeAuthentification(HTTPRequest $request)
     {
-        if (!($request->postExists('name') && $request->postExists('password'))) {
+        if (!($request->postExists('pseudo') && $request->postExists('password'))) {
+            var_dump($_POST);
             $this->app()->httpResponse()->sendJsonErr('Veuillez indiquer un nom d\'utilisateur et un mot de passe');
         }
         try {
             $userManager = $this->managers->getManagerOf('user');
-            $users = $userManager->getListInfosByFields(['name' => $request->postData('name')]);
+            $users = $userManager->getListInfosByFields(['name' => $request->postData('pseudo')]);
         } catch (\Exception $e) {
             $this->app()->httpResponse()->sendJsonErr($e->getMessage());
         }
