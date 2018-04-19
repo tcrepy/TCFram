@@ -37,6 +37,10 @@ class Page extends ApplicationComponent
         $content = ob_get_clean();
 
         ob_start();
+        require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/menu.php';
+        $menu = ob_get_clean();
+
+        ob_start();
         require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/layout.php';
         return ob_get_clean();
     }
