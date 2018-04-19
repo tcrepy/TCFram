@@ -10,9 +10,13 @@ function auth() {
     let password = $('#password').val();
     $.post('./ajax/connexion', {'pseudo': pseudo, 'password': password}, function(data) {
         if (data.etat === 'conf') {
-
+            iziToast.success({
+                message: data.message,
+            });
         } else {
-
+            iziToast.error({
+                message: data.message
+            })
         }
     }, 'json');
 }

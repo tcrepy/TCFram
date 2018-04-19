@@ -60,6 +60,10 @@ class Page extends ApplicationComponent
             if (!file_exists($file)) {
                 throw new \InvalidArgumentException('Le fichier demandé n\'existe pas');
             }
+        } else {
+            if (file_exists("../node_modules/" . $file)) {
+                $file = '../node_modules/' . $file;
+            }
         }
         $this->css[] = $file;
     }
@@ -67,9 +71,9 @@ class Page extends ApplicationComponent
     public function getCss()
     {
         $css = '';
-        if (!empty($this->css)){
+        if (!empty($this->css)) {
             foreach ($this->css as $file) {
-                $css .= '<link rel="stylesheet" type="text/css" href="'. $file . "\"/>\n";
+                $css .= '<link rel="stylesheet" type="text/css" href="' . $file . "\"/>\n";
             }
         }
         return $css;
@@ -84,6 +88,10 @@ class Page extends ApplicationComponent
             $file = 'js/' . $file;
             if (!file_exists($file)) {
                 throw new \InvalidArgumentException('Le fichier demandé n\'existe pas');
+            }
+        } else {
+            if (file_exists("../node_modules/" . $file)) {
+                $file = '../node_modules/' . $file;
             }
         }
         $this->js[] = $file;
