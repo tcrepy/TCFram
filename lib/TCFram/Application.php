@@ -62,7 +62,7 @@ abstract class Application
         $yaml = Yaml::parse(file_get_contents($fileName));
         $authorizations = $yaml['authorizations'];
         try {
-            if ($this->user()->isAuthenticated() && !in_array($matchedRoute->name(), $authorizations['roles'][$this->user()->getSessionDatas('role')])) {
+            if ($this->user()->isAuthenticated() && Tools::in_array_r($matchedRoute->name(), $authorizations['roles']) && !in_array($matchedRoute->name(), $authorizations['roles'][$this->user()->getSessionDatas('role')])) {
                 $this->user()->setFlash('Vous n\'avez pas accès à cette page');
                 return new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
             } elseif (!$this->user()->isAuthenticated() && Tools::in_array_r($matchedRoute->name(), $authorizations['roles'])) {
