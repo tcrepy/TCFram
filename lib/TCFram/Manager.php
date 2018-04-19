@@ -55,7 +55,7 @@ abstract class Manager
      * @param array $fields Critère de recherche
      * @param array $infos Facultatif permet de limité les informations rendus (par défaut *)
      * @param boolean $nullIfNotExist false par défaut, si vaut true return null si aucun résultat
-     * @return array|false Retourne le tableau d'info ou false si erreur
+     * @return Entity|false Retourne le tableau d'info ou false si erreur
      * @throws Exception
      */
     public function getInfosByFields($fields, $infos = array(), $nullIfNotExist = false)
@@ -98,7 +98,7 @@ abstract class Manager
      * @param array $fields les valeurs sur lesquelles on souhaite faire notre recherche, avec en clé les noms des colonnes de la table
      * @param array $infos les champs qu'on souhaite récupèrer en retour
      * @param boolean $objet si on souhaite un objet ou un array en retour
-     * @return array
+     * @return Entity
      * @throws Exception
      */
     public function getListInfosByFields(array $fields, $objet = true, $infos = array())
@@ -196,7 +196,7 @@ abstract class Manager
             if (!strlen($queryFields)) {
                 throw new Exception("Aucune données de mise à jour");
             }
-            $sql = "UPDATE " . static::$dbName . " SET " . $queryFields . " WHERE id=:id";
+            $sql = "UPDATE " . static::$dbName . " SET " . $queryFields . " WHERE id = :id";
             $outDatas = $this->dao->query($sql, ['id', $entity->id()]);
             if ($outDatas === 0) {
                 throw new Exception('Aucune ligne n\'a été affectée');
@@ -214,7 +214,7 @@ abstract class Manager
     //TODO::test delete
     public function delete(Entity $entity)
     {
-        $sql = 'DELETE FROM ' . static::$dbName . ' WHERE id=:id';
+        $sql = 'DELETE FROM ' . static::$dbName . ' WHERE id = :id';
         return $this->dao->query($sql, ['id', $entity->id()]);
     }
 

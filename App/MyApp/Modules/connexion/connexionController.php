@@ -79,10 +79,39 @@ Class ConnexionController extends BackController
             $manager = $this->managers->getManagerOf('user');
             $myUser = $manager->getInfos($this->app()->user()->getSessionDatas('id'));
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            $this->app()->user()->setFlash($e->getMessage());
         }
         $this->page()->addVar('myUser', $myUser);
         $this->app()->httpResponse()->setPage($this->page())->send();
+    }
+
+    public function executeUpdate(HTTPRequest $request)
+    {
+        $name = $request->postData('name');
+        $password = $request->postData('password');
+        $verify = $request->postData('password_confirm');
+        $manager = $this->managers->getManagerOf('user');
+        $myUser = $manager->getInfos($this->app()->user()->getSessionDatas('id'));
+        try {
+
+            if ($password !== '' && $verify !== '' && $password !== $verify) {
+                $this->app()->user()->setFlash('Les mots de passe ne correspondent pas');
+                Tools::redirect($this->app()->web_url() . '/user/modification');
+                exit();
+            } elseif ($password !== '') {
+                $password = password_hash($password, PASSWORD_DEFAULT);
+            } else {
+                $password = $myUser->password();
+            }
+            $update = ['name' => $name, 'password' => $password];
+
+            $manager->update($myUser, $update);
+        } catch (\Exception $e) {
+            $this->app()->user()->setFlash($e->getMessage());
+            Tools::redirect($this->app()->web_url() . '/user/modification');
+        }
+        $this->app()->user()->setFlash('Vos informations ont bien été mises à jour');
+        Tools::redirect($this->app()->web_url());
     }
 
     public function executeInscription(HTTPRequest $request)

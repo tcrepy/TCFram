@@ -34,8 +34,6 @@ class MyAppApplication extends Application
         //liste des assets qu'on souhaite mettre dans le projet
         try {
             $controller->page()->addJs('lib/jQuery.js');
-            $controller->page()->addJs('lib/Xbulle/Xbulle.js');
-            $controller->page()->addCss('lib/Xbulle/Xbulle.css');
             $controller->page()->addJs('lib/all.js');
             $controller->page()->addCss('lib/all.css');
 
